@@ -1,0 +1,7 @@
+<% p("rep.reps_per_instance").times do |i| %>
+check process rep-<%= i %>
+  with pidfile /var/vcap/sys/run/rep/rep-<%= i %>.pid
+  start program "/var/vcap/jobs/rep/bin/ctl start <%= i %>"
+  stop program "/var/vcap/jobs/rep/bin/ctl stop <%= i %>"
+  group vcap
+<% end %>

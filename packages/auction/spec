@@ -1,0 +1,8 @@
+---
+name: auction
+
+dependencies:
+  - godang
+
+files:
+  - auction/**/*.go

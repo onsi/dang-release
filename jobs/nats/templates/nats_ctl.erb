@@ -1,0 +1,43 @@
+#!/bin/bash -e
+# vim: set ft=sh
+
+RUN_DIR=/var/vcap/sys/run/nats
+LOG_DIR=/var/vcap/sys/log/nats
+PIDFILE=$RUN_DIR/nats.pid
+
+PKG=/var/vcap/packages/gnatsd
+
+mkdir -p /var/vcap/sys/log/monit
+exec 1>> /var/vcap/sys/log/monit/nats.out.log
+exec 2>> /var/vcap/sys/log/monit/nats.err.log
+
+case $1 in
+  start)
+    mkdir -p $LOG_DIR
+    chown -R vcap:vcap $LOG_DIR
+
+    mkdir -p $RUN_DIR
+    chown -R vcap:vcap $RUN_DIR
+
+    echo $$ > $PIDFILE
+
+    # Avoid Neighbour table overflow
+    sysctl -w net.ipv4.neigh.default.gc_thresh3=4096
+    sysctl -w net.ipv4.neigh.default.gc_thresh2=2048
+    sysctl -w net.ipv4.neigh.default.gc_thresh1=1024
+
+    exec /var/vcap/packages/gnatsd/bin/gnatsd \
+         -c /var/vcap/jobs/nats/config/nats.conf \
+         >>$LOG_DIR/nats.stdout.log \
+         2>>$LOG_DIR/nats.stderr.log
+
+    ;;
+
+  stop)
+    kill $(cat $PIDFILE)
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    ;;
+esac

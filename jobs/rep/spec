@@ -1,0 +1,14 @@
+---
+name: rep
+
+templates:
+  ctl.sh: bin/ctl
+
+packages:
+  - auction
+
+properties:
+  rep.reps_per_instance:
+    default: 10
+
+  rep.nats.machines: {}

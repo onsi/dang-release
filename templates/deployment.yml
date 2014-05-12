@@ -1,0 +1,83 @@
+meta:
+  environment: (( merge || nil ))
+  stemcell: (( merge ))
+
+name: (( merge || meta.environment "-dang" ))
+
+director_uuid: (( merge ))
+
+releases: (( merge ))
+
+networks: (( merge ))
+
+jobs: (( merge ))
+
+properties: ~
+
+compilation:
+  workers: 6
+  network: diego1
+  reuse_compilation_vms: true
+  cloud_properties: (( merge ))
+
+update:
+  canaries: 0
+  max_in_flight: 1000
+  serial: false
+  canary_watch_time: 30000-120000
+  update_watch_time: 5000-120000
+
+resource_pools:
+  - name: small_z1
+    network: diego1
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+
+  - name: small_z2
+    network: diego2
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+
+  - name: small_z3
+    network: diego3
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+
+  - name: medium_z1
+    network: diego1
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+
+  - name: medium_z2
+    network: diego2
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+
+  - name: medium_z3
+    network: diego3
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+
+  - name: large_z1
+    network: diego1
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+
+  - name: large_z2
+    network: diego2
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+
+  - name: large_z3
+    network: diego3
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))

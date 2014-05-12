@@ -1,0 +1,13 @@
+---
+name: auctioneer
+
+templates:
+  ctl.sh: bin/ctl
+
+packages:
+  - auction
+
+properties:
+  auctioneer.nats.machines: {}
+  auctioneer.max_concurrent:
+    default: 10

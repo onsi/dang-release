@@ -1,0 +1,82 @@
+meta: (( merge ))
+
+networks: (( merge ))
+
+releases:
+  - name: dang
+    version: latest
+
+jobs:
+  - name: nats_z1
+    release: dang
+    templates:
+      - name: nats
+        release: dang
+    instances: 1
+    resource_pool: medium_z1
+    networks:
+      - name: diego1
+        static_ips: (( static_ips(10, 11, 12) ))
+    properties:
+      nats:
+        machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))
+      network_name: diego1
+
+  - name: nats_z2
+    release: dang
+    templates:
+      - name: nats
+        release: dang
+    instances: 1
+    resource_pool: medium_z2
+    networks:
+      - name: diego2
+        static_ips: (( static_ips(10, 11, 12) ))
+    properties:
+      nats:
+        machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))
+      network_name: diego2
+
+  - name: executor_z1
+    release: dang
+    templates:
+      - name: rep
+        release: dang
+      - name: auctioneer
+        release: dang
+    instances: 5
+    resource_pool: large_z1
+    networks:
+      - name: diego1
+        static_ips: (( static_ips(13, 14, 15, 16, 17) ))
+    properties:
+      network_name: diego1
+      rep:
+        nats:
+          machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))
+      auctioneer:
+        max_concurrent: 100
+        nats:
+          machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))
+
+  - name: executor_z2
+    release: dang
+    templates:
+      - name: rep
+        release: dang
+      - name: auctioneer
+        release: dang
+    instances: 5
+    resource_pool: large_z2
+    networks:
+      - name: diego2
+        static_ips: (( static_ips(13, 14, 15, 16, 17) ))
+    properties:
+      network_name: diego2
+      rep:
+        nats:
+          machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))
+      auctioneer:
+        max_concurrent: 100
+        nats:
+          machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))

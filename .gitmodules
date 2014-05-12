@@ -1,0 +1,6 @@
+[submodule "src/auction"]
+	path = src/auction
+	url = https://github.com/onsi/auction
+[submodule "src/gnatsd"]
+	path = src/gnatsd
+	url = https://github.com/apcera/gnatsd

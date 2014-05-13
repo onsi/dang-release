@@ -32,6 +32,7 @@ case $1 in
     exec chpst -u vcap:vcap $PKG/bin/repnode \
       -guid=<%= "#{name}-#{spec.index}" %>-$LOGICAL_INDEX \
       -natsAddrs=<%= p("rep.nats.machines").collect { |addr| "#{addr}:4222" }.join(",") %> \
+      -etcdCluster=<%= p("rep.etcd.machines").collect { |addr| "http://#{addr}:4001" }.join(",") %> \
       1>>$LOG_DIR/rep-$LOGICAL_INDEX.stdout.log \
       2>>$LOG_DIR/rep-$LOGICAL_INDEX.stderr.log
 

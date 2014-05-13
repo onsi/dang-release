@@ -4,3 +4,6 @@
 [submodule "src/gnatsd"]
 	path = src/gnatsd
 	url = https://github.com/apcera/gnatsd
+[submodule "src/etcd"]
+	path = src/etcd
+	url = https://github.com/coreos/etcd.git

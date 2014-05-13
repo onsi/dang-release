@@ -16,7 +16,7 @@ properties: ~
 
 compilation:
   workers: 6
-  network: diego1
+  network: diego3
   reuse_compilation_vms: true
   cloud_properties: (( merge ))
 

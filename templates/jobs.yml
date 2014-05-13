@@ -54,8 +54,12 @@ jobs:
       rep:
         nats:
           machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))
+        etcd:
+          machines: (( jobs.etcd_z1.networks.diego1.static_ips jobs.etcd_z2.networks.diego2.static_ips jobs.etcd_z3.networks.diego3.static_ips ))
       auctioneer:
         max_concurrent: 100
+        etcd:
+          machines: (( jobs.etcd_z1.networks.diego1.static_ips jobs.etcd_z2.networks.diego2.static_ips jobs.etcd_z3.networks.diego3.static_ips ))
         nats:
           machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))
 
@@ -76,7 +80,56 @@ jobs:
       rep:
         nats:
           machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))
+        etcd:
+          machines: (( jobs.etcd_z1.networks.diego1.static_ips jobs.etcd_z2.networks.diego2.static_ips jobs.etcd_z3.networks.diego3.static_ips ))
       auctioneer:
         max_concurrent: 100
+        etcd:
+          machines: (( jobs.etcd_z1.networks.diego1.static_ips jobs.etcd_z2.networks.diego2.static_ips jobs.etcd_z3.networks.diego3.static_ips ))
         nats:
           machines: (( jobs.nats_z1.networks.diego1.static_ips jobs.nats_z2.networks.diego2.static_ips ))
+
+  - name: etcd_z1
+    release: dang
+    templates:
+      - name: etcd
+        release: dang
+    instances: 1
+    resource_pool: medium_z1
+    networks:
+      - name: diego1
+        static_ips: (( static_ips(18) ))
+    properties:
+      etcd:
+        machines: (( jobs.etcd_z1.networks.diego1.static_ips jobs.etcd_z2.networks.diego2.static_ips jobs.etcd_z3.networks.diego3.static_ips ))
+      network_name: diego1
+
+  - name: etcd_z2
+    release: dang
+    templates:
+      - name: etcd
+        release: dang
+    instances: 0
+    resource_pool: medium_z2
+    networks:
+      - name: diego2
+        static_ips: (( static_ips(18) ))
+    properties:
+      etcd:
+        machines: (( jobs.etcd_z1.networks.diego1.static_ips jobs.etcd_z2.networks.diego2.static_ips jobs.etcd_z3.networks.diego3.static_ips ))
+      network_name: diego2
+
+  - name: etcd_z3
+    release: dang
+    templates:
+      - name: etcd
+        release: dang
+    instances: 0
+    resource_pool: medium_z3
+    networks:
+      - name: diego3
+        static_ips: (( static_ips(18) ))
+    properties:
+      etcd:
+        machines: (( jobs.etcd_z1.networks.diego1.static_ips jobs.etcd_z2.networks.diego2.static_ips jobs.etcd_z3.networks.diego3.static_ips ))
+      network_name: diego3

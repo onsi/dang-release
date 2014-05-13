@@ -11,3 +11,4 @@ properties:
   auctioneer.nats.machines: {}
   auctioneer.max_concurrent:
     default: 10
+  auctioneer.etcd.machines: {}

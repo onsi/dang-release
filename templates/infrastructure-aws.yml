@@ -9,7 +9,7 @@ networks: (( merge ))
 compilation:
   cloud_properties:
     instance_type: c1.medium
-    availability_zone: (( meta.zones.z1 ))
+    availability_zone: (( meta.zones.z3 ))
 
 properties:
   template_only: (( merge ))

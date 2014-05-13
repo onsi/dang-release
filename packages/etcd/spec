@@ -1,0 +1,6 @@
+---
+name: etcd
+dependencies:
+  - godang
+files:
+  - etcd/**/*

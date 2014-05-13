@@ -30,6 +30,7 @@ case $1 in
     exec chpst -u vcap:vcap $PKG/bin/auctioneernode \
       -natsAddrs=<%= p("auctioneer.nats.machines").collect { |addr| "#{addr}:4222" }.join(",") %> \
       -maxConcurrent=<%= p("auctioneer.max_concurrent") %> \
+      -etcdCluster=<%= p("rep.etcd.machines").collect { |addr| "http://#{addr}:4001" }.join(",") %> \
       1>>$LOG_DIR/auctioneer.stdout.log \
       2>>$LOG_DIR/auctioneer.stderr.log
 

@@ -12,3 +12,5 @@ properties:
     default: 10
 
   rep.nats.machines: {}
+
+  rep.etcd.machines: {}
